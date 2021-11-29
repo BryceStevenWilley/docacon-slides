@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>AssemblyLine E-filing</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/suffolk.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Assembly Line E-filing</h1>
+					<h2>Bryce Willey, Suffolk LITLab Clinical Fellow</h2>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						# Why E-filing
+						* A key part in the SRL experience
+						* Makes things easier for the courts
+						---
+						# The Project
+						* working with IL and LA
+						---
+						# The Requirements
+						* Need to be able to file with multiple E-filing systems
+						* Needs to work with Tyler Tech's impl of ECF v4.0
+						---
+						# The Product
+						* The Efile Proxy Server
+						---
+						# Technical Motivations
+						* Java needed
+						* Scalable 
+						* Needs to be productive with docassemble output
+						---
+						# Example Usage
+						* LA Interview
+						* IL Interview
+						---
+						# Neat Additions
+						* A full general e-filing Interview
+						* Full docassemble-integrated python interface + core questions
+						---
+						# The future:
+						* Finish certification process
+						* ECF v5.0
+						* Additional E-filing system integrations
+						* Improvements of the REST API to work outside of docassemble
+						* Community building?
+					</textarea>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				center: false,
+				transitionSpeed: 'fast',
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
