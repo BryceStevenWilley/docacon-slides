@@ -21,41 +21,124 @@
 					<h2>Bryce Willey, Suffolk LITLab Clinical Fellow</h2>
 				</section>
 				<section data-markdown>
-					<textarea data-template>
+					<textarea data-template data-separator-notes="^Note:">
 						# Why E-filing
 						* A key part in the SRL experience
+						  * File wherever they are, without going to the court
 						* Makes things easier for the courts
+
+						Note:
+						TODO(brycew): add a sketch of car driving to the court with forms
+						TODO(brycew): generally add some fading in fragments for animations and some nice background colors
 						---
-						# The Project
-						* working with IL and LA
+						# Project Partners
+						* Illinois - [Illinois Legal Aid Online](https://www.illinoislegalaid.org/), [Matt Newsted](https://www.linkedin.com/in/matthewnewsted)
+						* Louisiana - [Lagniappe Law Lab](https://lagniappelawlab.org/), [Amanda Brown](https://lagniappelawlab.org/personnel/amanda-brown/)
+
+						Note:
+						TODO(brycew): add their photos to this slide instead
 						---
 						# The Requirements
 						* Need to be able to file with multiple E-filing systems
-						* Needs to work with Tyler Tech's impl of ECF v4.0
+						  * Tyler Technologies and ECF v4.0 in Illinois
+						  * Jefferson Parish JeffNet Efiling in Louisiana
+						* ECF requires domain specific XML over [SOAP](https://en.wikipedia.org/wiki/SOAP)
+						  * python libraries didn't support enough features of SOAP
 						---
-						# The Product
-						* The Efile Proxy Server
+						# The Product: The E-File Proxy Server
+						* Docker-enabled Java Server that takes JSON requests over HTTP/S
+						  * sends proper HTTP requests to JeffNet
+						  * sends SOAP requests to Tyler
+
+						Note:
+						TODO(brycew): do a diagram/quick sketch of the system
 						---
 						# Technical Motivations
-						* Java needed
-						* Scalable 
-						* Needs to be productive with docassemble output
-						---
-						# Example Usage
-						* LA Interview
-						* IL Interview
-						---
-						# Neat Additions
-						* A full general e-filing Interview
-						* Full docassemble-integrated python interface + core questions
-						---
-						# The future:
-						* Finish certification process
-						* ECF v5.0
-						* Additional E-filing system integrations
-						* Improvements of the REST API to work outside of docassemble
-						* Community building?
+						* python libraries didn't support enough features of SOAP
+						  * most options missing MTOM specifically
+						  * Java was the next best SOAP supported language
+						* Scalable
+						* Productive with docassemble output
+						  * flexible
+						
+						Note:
+						TODO(bryce): smaller header, draw a sad python
 					</textarea>
+				</section>
+				<!--section>
+					<h2>Example Usage: IL</h2>
+					<a href="https://github.com/SuffolkLITLab/docassemble-IlFeeWaiver">Illinois Fee Waiver (in progress)</a>
+					<pre><code>
+
+					</code>
+					</pre>
+
+					</ul>
+
+				</section-->
+				<section>
+					<h2>Example Usage: LA</h2>
+					<a href="https://github.com/lagniappe-law-lab/docassemble-LANameChange/blob/main/docassemble/LANameChange/data/questions/name_change_form.yml">
+						Louisiana Statewide Name Change Form
+					</a>
+					<pre><code data-trim data-line-numbers="2-5|9-16|19-29">
+---
+code: |
+  efile_author_mode = False
+  jurisdiction_id = 'louisiana'
+  proxy_conn = ProxyConnection(credentials_code_block=None)
+---
+...
+---
+mandatory: True
+id: main order block
+code: |
+  ...
+  if can_check_efile:
+    users[0].email
+    lead_contact
+    ready_to_efile
+  ...
+---
+question: |
+  Your form is read to download
+subquestion: |
+  % if ready_to_efile and not (defined('efile') and efile):
+  Click the "E-File" button below to e-file your form
+  at ${ trial_court }.
+
+  ${ action_button_html(url_ask([{'recompute':['efile']}]), 
+      label='E-file', icon='file-export') }
+  % endif
+---
+					</code></pre>
+				</section>
+				<section>
+					<h2>Neat Additions</h2>
+					<ul>
+						<li>A full general e-filing Interview</li>
+						<li>docassemble-integrated python interface + core questions</li>
+					</ul>
+					<aside class="notes">
+						TODO(brycew): show some screen shots of the general e-filing Interview
+						Some of the example core questions? At least how much of the filing is there.
+					</aside>
+				</section>
+				<section>
+					<h2>The Future</h2>
+					<ul>
+						<li>Finish certification process (ongoing)</li>
+						<li><a href="http://docs.oasis-open.org/legalxml-courtfiling/ecf/v5.0/ecf-v5.0.html">ECF v5.0</a></li>
+					    <li>Additional EFM system integrations</li>
+						<li>Improve REST API to work outside of docassemble</li>
+						<li>Community building: what do you want to see?</li>
+					</ul>
+
+					<aside class="notes">
+						Tyler is the biggest EFM, but there are others: Michigan, Utah (Tybera), Arizona, etc.
+
+						Some of the REST API requires quite of bit of docassemble features (specific attributes in the JSON, etc.)
+					</aside>
 				</section>
 			</div>
 		</div>
