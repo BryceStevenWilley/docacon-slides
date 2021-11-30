@@ -80,18 +80,7 @@
   </s:Body>
 </s:Envelope>
 					</code></pre>
-					<img src="assets/soap.png"/>
-				</section>
-				<section>
-					<h2>The E-file Proxy Server</h2>
-					<ul>
-						<li>Docker-enabled Java Server that takes JSON requests over HTTP/S</li>
-						<li>sends proper HTTP requests to JeffNet</li>
-						<li>sends SOAP requests to Tyler</li>
-					</ul>
-					<aside class="notes">
-						TODO(brycew): do a diagram/quick sketch of the system
-					</aside>
+					<!--img src="assets/soap.png"/-->
 				</section>
 				<section>
 					<h2>Technical Motivations</h2>
@@ -111,6 +100,17 @@
 					</aside>
 					</textarea>
 				</section>
+				<section>
+					<h2>The E-file Proxy Server</h2>
+					<ul>
+						<li>Docker-enabled Java Server that takes JSON requests over HTTP/S</li>
+						<li>sends proper HTTP requests to JeffNet</li>
+						<li>sends SOAP requests to Tyler</li>
+					</ul>
+					<aside class="notes">
+						TODO(brycew): do a diagram/quick sketch of the system
+					</aside>
+				</section>
 				<!--section>
 					<h2>Example Usage: IL</h2>
 					<a href="https://github.com/SuffolkLITLab/docassemble-IlFeeWaiver">Illinois Fee Waiver (in progress)</a>
@@ -122,6 +122,24 @@
 					</ul>
 
 				</section-->
+				<section>
+					<h2>The Docassemble Side</h2>
+					<div style="display: flex; flex-direction: row;">
+					<div>
+					<ul>
+						<li>A full general e-filing Interview</li>
+						<li>docassemble-integrated python interface + core questions</li>
+					</ul>
+					</div>
+					<div>
+						<img src="assets/any_filing_screenshot.png"/>
+					</div>
+					</div>
+					<aside class="notes">
+						TODO(brycew): show some screen shots of the general e-filing Interview
+						Some of the example core questions? At least how much of the filing is there.
+					</aside>
+				</section>
 				<section>
 					<h2>Example Usage: LA</h2>
 					<a href="https://github.com/lagniappe-law-lab/docassemble-LANameChange/blob/main/docassemble/LANameChange/data/questions/name_change_form.yml">
@@ -160,30 +178,12 @@ subquestion: |
 					</code></pre>
 				</section>
 				<section>
-					<h2>Neat Additions</h2>
-					<div style="display: flex; flex-direction: row;">
-					<div>
-					<ul>
-						<li>A full general e-filing Interview</li>
-						<li>docassemble-integrated python interface + core questions</li>
-					</ul>
-					</div>
-					<div>
-						<img src="assets/any_filing_screenshot.png"/>
-					</div>
-					</div>
-					<aside class="notes">
-						TODO(brycew): show some screen shots of the general e-filing Interview
-						Some of the example core questions? At least how much of the filing is there.
-					</aside>
-				</section>
-				<section>
 					<h2>The Future</h2>
 					<ul>
 						<li>Finish certification process (ongoing)</li>
 						<li><a href="http://docs.oasis-open.org/legalxml-courtfiling/ecf/v5.0/ecf-v5.0.html">ECF v5.0</a></li>
 					    <li>Additional EFM system integrations</li>
-						<li>Improve REST API to work outside of docassemble</li>
+						<!--li>Improve REST API to work outside of docassemble</li-->
 						<li>Community building: what do you want to see?</li>
 					</ul>
 
