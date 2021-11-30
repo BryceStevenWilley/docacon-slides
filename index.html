@@ -11,58 +11,104 @@
 		<link rel="stylesheet" href="dist/theme/suffolk.css">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<!--link rel="stylesheet" href="plugin/highlight/monokai.css"-->
+		<link rel="stylesheet" href="plugin/highlight/magula.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
 				<section>
 					<h1>Assembly Line E-filing</h1>
-					<h2>Bryce Willey, Suffolk LITLab Clinical Fellow</h2>
+					<h3>Bryce Willey, Suffolk LITLab Clinical Fellow</h3>
+					<img src="assets/litlab-logo.png"/>
 				</section>
-				<section data-markdown>
-					<textarea data-template data-separator-notes="^Note:">
-						# Why E-filing
-						* A key part in the SRL experience
-						  * File wherever they are, without going to the court
-						* Makes things easier for the courts
+				<section>
+					<h2>Why E-Filing?</h2>
 
-						Note:
-						TODO(brycew): add a sketch of car driving to the court with forms
-						TODO(brycew): generally add some fading in fragments for animations and some nice background colors
-						---
-						# Project Partners
-						* Illinois - [Illinois Legal Aid Online](https://www.illinoislegalaid.org/), [Matt Newsted](https://www.linkedin.com/in/matthewnewsted)
-						* Louisiana - [Lagniappe Law Lab](https://lagniappelawlab.org/), [Amanda Brown](https://lagniappelawlab.org/personnel/amanda-brown/)
+					<ul>
+						<li>A key part in the self-represent litigant experience</li>
+						<ul>
+							<li>Let's them file wherever they are, no going to court</li>
+						</ul>
+						<li>Makes things easier for the courts</li>
+					</ul>
 
-						Note:
-						TODO(brycew): add their photos to this slide instead
-						---
-						# The Requirements
-						* Need to be able to file with multiple E-filing systems
-						  * Tyler Technologies and ECF v4.0 in Illinois
-						  * Jefferson Parish JeffNet Efiling in Louisiana
-						* ECF requires domain specific XML over [SOAP](https://en.wikipedia.org/wiki/SOAP)
-						  * python libraries didn't support enough features of SOAP
-						---
-						# The Product: The E-File Proxy Server
-						* Docker-enabled Java Server that takes JSON requests over HTTP/S
-						  * sends proper HTTP requests to JeffNet
-						  * sends SOAP requests to Tyler
+					<img src="assets/sad_to_court.png" alt="A drawing of a sad person taking time to bring forms to a court"/>
 
-						Note:
+					<aside class="notes">
+					</aside>
+					</textarea>
+				</section>
+				<section>
+					<h2>Project Partners</h2>
+					<table>
+						<tr>
+					        	<td align="center">
+								<a href="https://www.linkedin.com/in/mattewnewsted">Matt Newsted</a>
+							<br><img src="assets/matt-headshot.jpg" alt="A headshot of Matt Newsted"/><br><sub>
+								<a href="https://www.illinoislegalaid.org">Illinois Legal Aid Online</a>
+							</sub></td>
+
+							<td align="center">
+								<a href="https://lagniappelawlab.org/personnel/amanda-brown/">Amanda Brown</a>
+							<br><img src="assets/amanda-headshot.jpg" alt="A headshot of Amanda Brown"/><br>
+							<sub>
+								<a href="https://lagniappelawlab.org/">Lagniappe Law Lab</a>
+							</sub></td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Requirements</h2>
+					<ul>
+						<li>Need to be able to file with multiple E-filing systems</li>
+						<ul>
+							<li>Tyler Technologies and ECF v4.0 in Illinois</li>
+							<li>Jefferson Parish JeffNet E-filing in Louisiana</li>
+						</ul>
+						<li>ECF requires domain specific XML over <a href="https://en.wikipedia.org/wiki/SOAP">SOAP</a></li>
+					</ul>
+					<pre><code data-trim style="font-size: 0.8em">
+<s:Envelope
+  xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Header>
+	  ...
+  </s:Header>
+  <s:Body>
+    <NotifyFilingReviewCompleteRequestMessage>
+    </NotifyFilingReviewCompleteRequestMessage>
+  </s:Body>
+</s:Envelope>
+					</code></pre>
+					<img src="assets/soap.png"/>
+				</section>
+				<section>
+					<h2>The E-file Proxy Server</h2>
+					<ul>
+						<li>Docker-enabled Java Server that takes JSON requests over HTTP/S</li>
+						<li>sends proper HTTP requests to JeffNet</li>
+						<li>sends SOAP requests to Tyler</li>
+					</ul>
+					<aside class="notes">
 						TODO(brycew): do a diagram/quick sketch of the system
-						---
-						# Technical Motivations
-						* python libraries didn't support enough features of SOAP
-						  * most options missing MTOM specifically
-						  * Java was the next best SOAP supported language
-						* Scalable
-						* Productive with docassemble output
-						  * flexible
-						
-						Note:
-						TODO(bryce): smaller header, draw a sad python
+					</aside>
+				</section>
+				<section>
+					<h2>Technical Motivations</h2>
+					<ul>
+						<li>couldn't find good python SOAP libraries</li>
+						<ul>
+							<li>not active, or missing needed features</li>
+							<li>Java was the next best language for SOAP</li>
+						</ul>
+						<li>Scalable</li>
+						<li>Productive with docassemble JSON</li>
+						<ul><li>flexible</li></ul>
+					</ul>
+					<img src="assets/python-logo-generic.png" width="400"/> <img src="assets/java.png" height="200"/>
+					<aside class="notes">
+						Most SOAP libraries were missing MTOM specifically
+					</aside>
 					</textarea>
 				</section>
 				<!--section>
@@ -115,10 +161,17 @@ subquestion: |
 				</section>
 				<section>
 					<h2>Neat Additions</h2>
+					<div style="display: flex; flex-direction: row;">
+					<div>
 					<ul>
 						<li>A full general e-filing Interview</li>
 						<li>docassemble-integrated python interface + core questions</li>
 					</ul>
+					</div>
+					<div>
+						<img src="assets/any_filing_screenshot.png"/>
+					</div>
+					</div>
 					<aside class="notes">
 						TODO(brycew): show some screen shots of the general e-filing Interview
 						Some of the example core questions? At least how much of the filing is there.
