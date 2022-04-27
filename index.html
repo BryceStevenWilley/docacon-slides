@@ -14,11 +14,9 @@
 		<!--link rel="stylesheet" href="plugin/highlight/monokai.css"-->
 		<link rel="stylesheet" href="plugin/highlight/magula.css">
 
-
-
         <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+        <link rel="icoon" type="image/png" sizes="16x16" href="favicon-16x16.png">
         <link rel="manifest" href="site.webmanifest">
         <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
@@ -32,6 +30,9 @@
 					<h3>Bryce Willey <a href="https://twitter.com/wowitisbryce">@wowitisbryce </a></h3>
 					<h3>Quinten Steenhuis <a href="https://twitter.com/QSteenhuis">@QSteenhuis</a></h3>
 					<img src="assets/litlab-logo.png"/>
+                    <aside class="notes">
+                      As my colleague <a href="https://youtu.be/YB-e-MGtLgI?t=1076">Quinten has mentioned</a>, the Assembly Line project has put a lot of work into making it easy for you, a legal guided interview author, to make quick prototypes and to have a lot of additional features that you don't have to worry about. 
+                    </aside>
 				</section>
 				<section>
 					<h2>Why E-Filing?</h2>
@@ -47,6 +48,10 @@
 					<img src="assets/sad_to_court.png" alt="A drawing of a sad person taking time to bring forms to a court"/>
 
 					<aside class="notes">
+                      So why specifically focus on e-filing? Because it's still a big part of what someone going through a guided form has to do! Without e-filing, someone would have to go through a guided form, get to the end, print out their documents (if they have a printer at all), and then they'd have to take time to got to the court, and find the right clerk to bring the form to. All of that might take several hours, including waiting in line. So adding e-filing to the guided interview itself lets them efile wherever they are, without having to go to court. That lowers the bar of access for a lot of self represented litigants who are trying to get to court to sorve their issues. 
+                      <br/>
+                      <br/>
+                      On the other hand, it also makes things easier for courts. At least in MA, many courts use electronic docketing systems or electronic case management systems, meaning all of the information about a court case is already electronic. It's scanned pdfs that judges can write on with iPads. So it's easier for the courts if you directly e-file, instead of someone having to scan and type in all of this extra information about your case.
 					</aside>
 					</textarea>
 				</section>
@@ -68,6 +73,9 @@
 							</sub></td>
 						</tr>
 					</table>
+                    <aside class="notes">
+                      For this project, we worked with a few legal aid partners: Matt Newsted from Illinois Legal Aid Online, and Amanda Brown in Louisiana, from Lagniappe Law Lab. They've been invaluable in helping us get this working in those states.
+                    </aside>
 				</section>
 				<section>
 					<h2>Requirements</h2>
@@ -91,7 +99,9 @@
   </s:Body>
 </s:Envelope>
 					</code></pre>
-					<!--img src="assets/soap.png"/-->
+                    <aside class="notes">
+                      One of our requirements for this project was to have a piece of software that you could use with docassemble that would be able to file with multiple e-filing systems. The courts have their own software that handles e-filing requests coming in, and we needed to be able to work multiple types of that software. In IL, their e-filing system is run by Tyler Technologies and uses ECF4 (Electronic Court Filing version 4), which is a standard for passing information back and forth. In Louisiana, there isn't a statewide e-filing provider, but Jefferson Parish has home-brewed their own software: we worked with them to be able to send them some of these requests.
+                    </aside>
 				</section>
 				<section>
 					<h2>Technical Motivations</h2>
@@ -107,9 +117,10 @@
 					</ul>
 					<img src="assets/python-logo-generic.png" width="400"/> <img src="assets/java.png" height="200"/>
 					<aside class="notes">
-						* SOAP is pretty platform specific, has quirks between different implementations
-
-						Most SOAP libraries were missing MTOM specifically
+                        We started in January 2021, and one of our first hurdles was finding a python library worked with ECFv4. ECF uses SOAP, which is a protocol / standard for sending data between computers. Like Jonathan said, it was popular back in the early 00's, but doesn't have as much support nowadays. All of the python libraries we found weren't actively maintained, or simply didn't have the right SOAP features. SOAP is a very big and kind of unwieldy protocol, so those libraries were missing features that we needed to talk to the e-filing providers (Most were missing "message transmision optimization mechanism" (MTOM) specifically).
+                        <br/>
+                        <br/>
+                        So, we went with our backup, which was Java. So we now have a Java application that is actually communicating with the courts. From that, we made sure the Java application could easily communicate with docassemble. So you don't have to know Java, and can still work entirely in docassemble.
 					</aside>
 					</textarea>
 				</section>
@@ -122,6 +133,10 @@
 					</ul>
 					<img src="assets/broad_arch.svg" />
 					<aside class="notes">
+                      Our final result was what we called the "E-file proxy server", "proxy server" meaning a piece of software that sits between two other things that are trying to communicate: in this case, between docassemble, and the e-filing provider.
+                      <br/>
+                      <br/>
+                      The buzzword dump is that the proxy server is a docker enabled java server that takes in JSON requests over HTTP (or HTTPS). We'll properly send whatever request is needed: for Jefferson Parish, we send HTTP with JSON, and with Tyler, we send SOAP requests.
 					</aside>
 				</section>
 				<!--section>
@@ -150,6 +165,10 @@
 					</div>
 					</div>
 					<aside class="notes">
+                      We also developed a python that runs on docassemble that you can use to communicate with the proxy server, so you're not having to hand-write raw queries, you can use a python object, much like you would use to interact with any other part of docassemble.
+                      <br/>
+                      <br/>
+                      We wrote some core efiling question that you might need to ask in your interviews, and we wrote an entirely general e-filing interview that lets you file into whatever case with whatever filing type for Tyler's system. If you're a legal or technical expert, it's a great place to start and integrate into your own Assembly Line interviews.
 					</aside>
 				</section>
 				<section>
@@ -188,6 +207,9 @@ subquestion: |
   % endif
 ---
 					</code></pre>
+                    <aside class="notes">
+                      Integration into your Assebly Line interviews is very simple: for Louisiana, there are three blocks you need to add: the first tells us that this interview will e-file in Louisiana, the second checks that everything is setup properly to make the filing, and the third is a bit of an incantation, but just triggers a variable called "efile", which guides the user through the rest of the filing for you. I'd do a demo here, but it's literally just as simple as pressing a button.
+                    </aside>
 				</section>
 				<section>
 					<h2>The Future</h2>
@@ -200,9 +222,13 @@ subquestion: |
 					</ul>
 
 					<aside class="notes">
-						Tyler is the biggest EFM, but there are others: Michigan, Utah (Tybera), Arizona, etc.
-
-						Some of the REST API requires quite of bit of docassemble features (specific attributes in the JSON, etc.)
+                        Now that we've made this e-filing feature, our next steps are to:
+                        <ul>
+                         <li>finish the ongoing certification process</li>
+                         <li>upgrade to work with ECF v5, which is more extensible than ECF v4</li>
+                         <li>working with other e-filing systems. Tyler is the biggest with about 22 states, but there are other states, like Michigan, Utah, and Arizona, who don't use Tyler, and we'd love to integrate with them.</li>
+                         <li>building a community! What would features do you want to see?</li>
+                        </ul>
 					</aside>
 				</section>
 			</div>
@@ -221,6 +247,7 @@ subquestion: |
 
 				center: false,
 				transitionSpeed: 'fast',
+                showNotes: true,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
